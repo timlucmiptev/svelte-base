@@ -14,9 +14,9 @@
         { path: "/~timluc-miptev/macro---monetary-879" },
       ],
       users: [
-        { user: "~locbur-pasneb", numWeek: 0, numMonth: 0 },
-        { user: "~tirlyd-tadlug", numWeek: 0, numMonth: 12 },
-        { user: "~fabnev-hinmur", numWeek: 2, numMonth: 37 },
+        { name: "~locbur-pasneb", numWeek: 0, numMonth: 0 },
+        { name: "~tirlyd-tadlug", numWeek: 0, numMonth: 12 },
+        { name: "~fabnev-hinmur", numWeek: 2, numMonth: 37 },
       ],
     },
     {
@@ -74,7 +74,10 @@
   <h1>{name}</h1>
   <div>
     {#if group}
-      <Group {group} homeRoute="#/top" />
+      <Group
+        {group}
+        homeRoute="#/top"
+        ownRoute="#/group/{group.resource.owner}/{group.resource.name}" />
     {:else}
       <List {groups} />
     {/if}
