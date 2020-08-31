@@ -2,9 +2,19 @@
   export let group;
   export let homeRoute;
   export let ownRoute;
-  let user = null;
   $: sortedUsers = group.users.sort((a, b) => a.numWeek <= b.numWeek);
+  let user = null;
+  let numMsgs = 10;
+  $: userMsgs = user ? msgs[user.name].slice(0, numMsgs) : [];
 
+  let msgs = {
+    "~locbur-pasneb": [],
+    "~tirlyd-tadlug": [{ when: "2020-04-25", text: "I'm cool" }],
+    "~fabnev-hinmur": [
+      { when: "2020-08-26", text: "your mom" },
+      { when: "2020-08-27", text: "political stuff" },
+    ],
+  };
   // does the user fetch in here
   /*
   $: fetch(`localhost=${page}`, {
@@ -20,6 +30,9 @@
     */
 
   const setUser = (u) => (user = u);
+  const banUser = (u) => {
+    console.log(`%ban ${u.name}`);
+  };
 </script>
 
 <style>
@@ -56,6 +69,11 @@
   div.msgs {
     padding: 0em 0em 0em 0.4em;
   }
+  button {
+    float: right;
+    font-size: 0.6em;
+    margin-right: 0.2em;
+  }
 </style>
 
 <a href={homeRoute}>« Home</a>
@@ -71,12 +89,20 @@
           on:click|preventDefault={setUser(u)}>
           {u.name}: {u.numWeek}, {u.numMonth}
         </a>
+        {#if u === user}
+          <button on:click={banUser(u)}>Ban</button>
+        {/if}
       </article>
     {/each}
   </div>
   <div class="msgs">
     <header>Messages</header>
-    {#if user}{user.name}{:else}Click a user to select a message{/if}
+    {#if user}
+      {user.name}
+      {#each userMsgs as um}
+        <p>{um.text} ({um.when})</p>
+      {/each}
+    {:else}Click a user to view their {numMsgs} most recent messages{/if}
   </div>
 
 </div>
