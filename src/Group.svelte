@@ -1,5 +1,7 @@
 <script>
   import { onMount } from "svelte";
+  import Message from "./Message.svelte";
+  import { api } from "./api.js";
 
   export let group;
   export let homeRoute;
@@ -18,10 +20,6 @@
     ],
   };
 
-  const testFetch = async () => {
-    const res = await fetch("http://localhost/~landscape/js/session.js");
-    console.log(await res.text());
-  };
   // does the user fetch in here
   /*
   $: fetch(`localhost=${page}`, {
@@ -41,7 +39,7 @@
     console.log(`%ban ${u.name}`);
   };
 
-  onMount(testFetch);
+  const handle = () => api.test();
 </script>
 
 <style>
@@ -72,13 +70,13 @@
   }
   article.user {
     position: relative;
-    padding: 0.2em 0.2em 0.2em 0em;
+    padding: 0.5em 0.2em 0.2em 0em;
     border-bottom: 1px solid #eee;
   }
   div.msgs {
-    padding: 0em 0em 0em 0.6em;
+    padding: 0em 0em 0em 0.9em;
   }
-  button {
+  button.ban {
     float: right;
     font-size: 0.6em;
     margin-right: 0.2em;
@@ -86,6 +84,9 @@
 </style>
 
 <a href={homeRoute}>« Home</a>
+<p>
+  <button on:click={handle}>Test Poke</button>
+</p>
 <h2>{group.name}</h2>
 <div class="container">
   <div>
@@ -99,7 +100,7 @@
           {u.name}: {u.numWeek}, {u.numMonth}
         </a>
         {#if u === user}
-          <button on:click={banUser(u)}>Ban</button>
+          <button class="ban" on:click={banUser(u)}>Ban</button>
         {/if}
       </article>
     {/each}
@@ -108,7 +109,7 @@
     <header>Messages</header>
     {#if user}
       {#each userMsgs as um}
-        <p>{um.text} ({um.when})</p>
+        <Message message={um} />
       {/each}
     {:else}Click a user to view their {numMsgs} most recent messages{/if}
   </div>
