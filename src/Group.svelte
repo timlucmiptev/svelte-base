@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from "svelte";
+
   export let group;
   export let homeRoute;
   export let ownRoute;
@@ -14,6 +16,11 @@
       { when: "2020-08-26", text: "your mom" },
       { when: "2020-08-27", text: "political stuff" },
     ],
+  };
+
+  const testFetch = async () => {
+    const res = await fetch("http://localhost/~landscape/js/session.js");
+    console.log(await res.text());
   };
   // does the user fetch in here
   /*
@@ -33,6 +40,8 @@
   const banUser = (u) => {
     console.log(`%ban ${u.name}`);
   };
+
+  onMount(testFetch);
 </script>
 
 <style>
@@ -67,7 +76,7 @@
     border-bottom: 1px solid #eee;
   }
   div.msgs {
-    padding: 0em 0em 0em 0.4em;
+    padding: 0em 0em 0em 0.6em;
   }
   button {
     float: right;
@@ -98,7 +107,6 @@
   <div class="msgs">
     <header>Messages</header>
     {#if user}
-      {user.name}
       {#each userMsgs as um}
         <p>{um.text} ({um.when})</p>
       {/each}
