@@ -39,7 +39,7 @@
     console.log(`%ban ${u.name}`);
   };
 
-  const handle = () => api.test();
+  const handle = () => api.ban("~fabnev-hinmur");
 </script>
 
 <style>
@@ -84,9 +84,7 @@
 </style>
 
 <a href={homeRoute}>« Home</a>
-<p>
-  <button on:click={handle}>Test Poke</button>
-</p>
+<p><button on:click={handle}>Test Poke</button></p>
 <h2>{group.name}</h2>
 <div class="container">
   <div>
@@ -113,5 +111,4 @@
       {/each}
     {:else}Click a user to view their {numMsgs} most recent messages{/if}
   </div>
-
 </div>
